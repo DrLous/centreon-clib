@@ -8,6 +8,11 @@ stage('Source') {
     source = readProperties file: 'source.properties'
     env.VERSION = "${source.VERSION}"
     env.RELEASE = "${source.RELEASE}"
+    if (env.BRANCH_NAME == '1.4') {
+      withSonarQubeEnv('SonarQube') {
+        sh './centreon-build/jobs/clib/3.4/mon-clib-analysis.sh'
+      }
+    }
   }
 }
 
