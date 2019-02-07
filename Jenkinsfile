@@ -23,24 +23,6 @@ try {
         sh 'setup_centreon_build.sh'
         sh './centreon-build/jobs/clib/18.10/mon-clib-package.sh centos7'
       }
-    },
-    'debian9': {
-      node {
-        sh 'setup_centreon_build.sh'
-        sh './centreon-build/jobs/clib/18.10/mon-clib-package.sh debian9'
-      }
-    },
-    'debian9-armhf': {
-      node {
-        sh 'setup_centreon_build.sh'
-        sh './centreon-build/jobs/clib/18.10/mon-clib-package.sh debian9-armhf'
-      }
-    },
-    'debian10': {
-      node {
-        sh 'setup_centreon_build.sh'
-        sh './centreon-build/jobs/clib/18.10/mon-clib-package.sh debian10'
-      }
     }
     if ((currentBuild.result ?: 'SUCCESS') != 'SUCCESS') {
       error('Package stage failure.');
@@ -49,7 +31,7 @@ try {
 }
 finally {
   buildStatus = currentBuild.result ?: 'SUCCESS';
-  if ((buildStatus != 'SUCCESS') && (env.BRANCH_NAME == 'master')) {
+  if ((buildStatus != 'SUCCESS') && (env.BRANCH_NAME == '18.10')) {
     slackSend channel: '#monitoring-metrology', message: "@channel Centreon Clib build ${env.BUILD_NUMBER} of branch ${env.BRANCH_NAME} was broken by ${source.COMMITTER}. Please fix it ASAP."
   }
 }
